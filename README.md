@@ -1,10 +1,21 @@
-# express-basic
-A basic express repository with handlebars templates for rapid prototyping
+# Rest-test web application
+A simple web application to consume data from a third party api and display using Express.js and templates. 
 
-To run the project locally
+## Installation
 
-git clone
+Navigate to the root directory of the project. Open the terminal.
 
+Use the package manager npm
+
+```bash
 npm install
+```
 
-node src/app.js
+To run the code from the SSE-backend root directory
+```bash
+npm start
+```
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
+
