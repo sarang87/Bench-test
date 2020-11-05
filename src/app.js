@@ -6,7 +6,8 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const data = require('./data')
 const app = express()
-
+const dotenv = require('dotenv');
+dotenv.config();
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
@@ -26,13 +27,15 @@ const publicDirectoryPath = path.join(__dirname, '../public')
 app.use(express.static(publicDirectoryPath))
 
 
-
 app.get('/', (req, res) => {
-    fetchAllData().then((response) => {
-        if (response.data) {
+    const startPage = 1
+    fetchAllData(startPage).then((response) => {
+        // response data has valid transactions
+        if (response.transactions) {
             res.render('index',
-                { transactions: response.data.transactions })
+                { transactions: response.transactions })
         }
+        // render error page with a message
         else {
             res.render('errorPage', { error: response })
         }
@@ -43,8 +46,8 @@ app.get('/', (req, res) => {
 
 const fetchPageData = async (pageNum) => {
     try {
-        let pageURL = pageNum+".json"
-        return await axios.get(baseURL+pageURL)
+        let pageURL = pageNum + ".json"
+        return await axios.get(baseURL + pageURL)
     } catch (error) {
         if (error.response) {
             console.log("**** ERROR ******")
@@ -56,33 +59,42 @@ const fetchPageData = async (pageNum) => {
             console.log("**** NETWORK ******")
             // The request was made but no response was received
             //console.log(error.request);
+            //console.log(error.request)
             const errMsg = "Network error"
             return errMsg
 
         } else {
             console.log("**** OTHER ******")
-            // Something happened in setting up the request that triggered an Error
-            //console.log('Error', error.message);
             return error.message
         }
     }
 }
 
-const fetchAllData = async () => {
-    const fetchedData = await fetchPageData(2)
-    console.log(fetchedData)
-    if (fetchedData.status == 200) {
-        //console.log(fetchedData.data.transactions)
-        return fetchedData
+const fetchAllData = async (page) => {
+    let response = await fetchPageData(page)
+    let resultData = {}
+    let pageResults = []
+    if (response.status != 200) {
+        return response
     }
-    else {
-        console.log("Fetching error")
+    flag = true
+    while (flag) {
+        let response = await fetchPageData(page)
+        if (response.status == 200) {
+            pageResults.push(...response.data.transactions)
+            //console.log(response.data)
+        }
+        else {
+            flag = false
+        }
+        page = page + 1
     }
+    console.log(pageResults)
+    resultData['transactions'] = pageResults
+    return resultData
 }
 
 
-
-const PORT = 4001
-app.listen(PORT, () => {
-    console.log('Server is running on port ' + PORT)
+app.listen(process.env.PORT, () => {
+    console.log('Server is running on port ' + process.env.PORT)
 })
