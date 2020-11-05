@@ -3,8 +3,7 @@ h1 {
     font-family:sans-serif;
     padding:1rem;
     color:black;
-    background-color: aquamarine;
-    
+    background-color: aquamarine;    
 }
 
 h2 {
@@ -15,7 +14,6 @@ h2 {
    
 }
 
-.top-buffer { margin-top:20px; 
-    margin-bottom:30px;
-    
+.top-buffer { 
+    margin-top:20px; 
 }
