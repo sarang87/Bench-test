@@ -1,5 +1,7 @@
 const axios = require('axios');
-const baseURL = 'https://resttest.bench.co/transactions/'
+const dotenv = require('dotenv');
+dotenv.config();
+const baseURL = process.env.BASE_URL
 
 // Get the data for a requested pagenumber from the API
 const fetchPageData = async (pageNum) => {
@@ -27,10 +29,12 @@ const fetchAllData = async (page) => {
     let response = await fetchPageData(page)
     let resultData = {}
     let pageResults = []
+    // return error response incase statuis is not OK
     if (response.status != 200) {
         return response
     }
     flag = true
+    // request till valid data is being fetched
     while (flag) {
         response = await fetchPageData(page)
         if (response.status == 200) {
