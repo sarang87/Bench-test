@@ -2,7 +2,7 @@
 A simple web application to consume data from a third party api and display using Express.js and templates (Handlebars). Bootstrap is used for handling the styling.  
 
 ## Sample Image
-![alt text](https://github.com/sarang87/Bench-test/issues/4#issue-737030612)
+![Screenshot](demo.png)
 
 
 ## Installation
