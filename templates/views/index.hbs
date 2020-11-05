@@ -4,13 +4,56 @@
 
 <head>
     <link rel="stylesheet" href="css/styles.css">
-    <script src="js/client-js.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script src="js/client.js"></script>
 </head>
 
 <body>
-    {{>header}}
-    <h1>{{title}}</h1>
-    <p>{{name}}</p>
+    <div class="row top-buffer"></div>
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            {{>header}}
+            {{!-- <ol>
+                {{#each t}}
+                <li>{{this.Date}}{{this.Ledger}}</li>
+                {{/each}}
+            </ol> --}}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Company</th>
+                        <th scope="col">Account</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each transactions}}
+                    <tr>
+                        <td>{{this.Date}}</td>
+                        <td>{{this.Company}}</td>
+                        <td>{{this.Ledger}}</td>
+                        <td>{{this.Amount}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
 </body>
 
 </html>
