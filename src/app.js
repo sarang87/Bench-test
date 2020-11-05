@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-let url = 'https://resttest.bench.co/transactions/1.json'
+const baseURL = 'https://resttest.bench.co/transactions/'
 
 
 // Setting up the views
@@ -41,9 +41,10 @@ app.get('/', (req, res) => {
 
 
 
-const fetchData = async () => {
+const fetchPageData = async (pageNum) => {
     try {
-        return await axios.get('https://resttest.bench.co/transactions/1.json')
+        let pageURL = pageNum+".json"
+        return await axios.get(baseURL+pageURL)
     } catch (error) {
         if (error.response) {
             console.log("**** ERROR ******")
@@ -68,8 +69,9 @@ const fetchData = async () => {
 }
 
 const fetchAllData = async () => {
-    const fetchedData = await fetchData()
-    if (fetchedData) {
+    const fetchedData = await fetchPageData(2)
+    console.log(fetchedData)
+    if (fetchedData.status == 200) {
         //console.log(fetchedData.data.transactions)
         return fetchedData
     }
