@@ -11,7 +11,7 @@ Use the package manager npm
 npm install
 ```
 
-To run the code from the SSE-backend root directory
+To run the code from the root directory type the following in your terminal
 ```bash
 npm start
 ```
