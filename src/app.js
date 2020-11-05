@@ -4,7 +4,7 @@ const hbs = require('hbs')
 const axios = require('axios');
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const data = require('./data')
+const dataProvider = require('./dataProvider')
 const app = express()
 const dotenv = require('dotenv');
 dotenv.config();
@@ -29,7 +29,7 @@ app.use(express.static(publicDirectoryPath))
 
 app.get('/', (req, res) => {
     const startPage = 1
-    fetchAllData(startPage).then((response) => {
+    dataProvider.fetchAllData(startPage).then((response) => {
         // response data has valid transactions
         if (response.transactions) {
             res.render('index',
@@ -41,58 +41,6 @@ app.get('/', (req, res) => {
         }
     })
 })
-
-
-
-const fetchPageData = async (pageNum) => {
-    try {
-        let pageURL = pageNum + ".json"
-        return await axios.get(baseURL + pageURL)
-    } catch (error) {
-        if (error.response) {
-            console.log("**** ERROR ******")
-            // Request made and server responded
-            // console.log(error.response.data);
-            // console.log(error.response.status);
-            return error.response.status
-        } else if (!error.response) {
-            console.log("**** NETWORK ******")
-            // The request was made but no response was received
-            //console.log(error.request);
-            //console.log(error.request)
-            const errMsg = "Network error"
-            return errMsg
-
-        } else {
-            console.log("**** OTHER ******")
-            return error.message
-        }
-    }
-}
-
-const fetchAllData = async (page) => {
-    let response = await fetchPageData(page)
-    let resultData = {}
-    let pageResults = []
-    if (response.status != 200) {
-        return response
-    }
-    flag = true
-    while (flag) {
-        let response = await fetchPageData(page)
-        if (response.status == 200) {
-            pageResults.push(...response.data.transactions)
-            //console.log(response.data)
-        }
-        else {
-            flag = false
-        }
-        page = page + 1
-    }
-    console.log(pageResults)
-    resultData['transactions'] = pageResults
-    return resultData
-}
 
 
 app.listen(process.env.PORT, () => {
