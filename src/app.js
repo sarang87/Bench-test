@@ -4,13 +4,14 @@ const hbs = require('hbs')
 const axios = require('axios');
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const data = require('./data')
 const app = express()
 
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
+let url = 'https://resttest.bench.co/transactions/1.json'
 
 
 // Setting up the views
@@ -25,19 +26,19 @@ const publicDirectoryPath = path.join(__dirname, '../public')
 app.use(express.static(publicDirectoryPath))
 
 
+
 app.get('/', (req, res) => {
-    data = fetchAllData()
-    res.render('index',
-        {
-            
-            name: 'Created by Sarang Joshi'
-        })
+    fetchAllData().then((response) => {
+        if (response.data) {
+            res.render('index',
+                { transactions: response.data.transactions })
+        }
+        else {
+            res.render('errorPage', { error: response })
+        }
+    })
 })
 
-app.get('/test/json', (req, res) => {
-    data = fetchAllData()
-    res.json(data)
-})
 
 
 const fetchData = async () => {
@@ -47,33 +48,35 @@ const fetchData = async () => {
         if (error.response) {
             console.log("**** ERROR ******")
             // Request made and server responded
-            console.log(error.response.data);
-            console.log(error.response.status);
-           ``
-          } else if (error.request) {
+            // console.log(error.response.data);
+            // console.log(error.response.status);
+            return error.response.status
+        } else if (!error.response) {
             console.log("**** NETWORK ******")
             // The request was made but no response was received
-            console.log(error.request);
-          } else {
+            //console.log(error.request);
+            const errMsg = "Network error"
+            return errMsg
+
+        } else {
             console.log("**** OTHER ******")
             // Something happened in setting up the request that triggered an Error
-            console.log('Error', error.message);
-          }
+            //console.log('Error', error.message);
+            return error.message
+        }
     }
 }
 
 const fetchAllData = async () => {
     const fetchedData = await fetchData()
     if (fetchedData) {
-        console.log(fetchedData.data)
+        //console.log(fetchedData.data.transactions)
+        return fetchedData
     }
-    else{
+    else {
         console.log("Fetching error")
     }
-
-
 }
-
 
 
 

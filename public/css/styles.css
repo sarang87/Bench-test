@@ -1,5 +1,21 @@
 h1 {
-    text-align:center    
+    text-align:center;
+    font-family:sans-serif;
+    padding:1rem;
+    color:black;
+    background-color: aquamarine;
+    
 }
 
-.top-buffer { margin-top:30px; }
+h2 {
+    text-align:center;
+    font-family:sans-serif;
+    padding:1rem;
+    color:black;
+   
+}
+
+.top-buffer { margin-top:20px; 
+    margin-bottom:30px;
+    
+}
