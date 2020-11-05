@@ -1,6 +1,10 @@
 # Rest-test web application
 A simple web application to consume data from a third party api and display using Express.js and templates (Handlebars). Bootstrap is used for handling the styling.  
 
+## Sample Image
+![alt text](https://github.com/sarang87/Bench-test/issues/4#issue-737030612)
+
+
 ## Installation
 
 Navigate to the root directory of the project. Open the terminal.
